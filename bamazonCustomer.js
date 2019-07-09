@@ -133,7 +133,7 @@ function buyItems() {
 			}
 		})// end of data base
 	})// end of promise
-}//end of promptUserPurchase()
+}//end of prompt
 
 
 
