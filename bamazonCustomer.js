@@ -52,13 +52,11 @@ function start() {
       choices: ["Yes", "No"]
     })
     .then(function(answer) {
-      // based on their answer, either Yes to buy or No to not buy and display  the buy or the post functions
-      /*
-      The app should then prompt users with two messages.
-      The first should ask them the ID of the product they would like to buy.
-      The second message should ask how many units of the product they would like to buy. */
+	  // based on their answer, either Yes to buy or No to not buy and display 
+	  // the buy or the post functions
+   
       if (answer.yesOrNo === "Yes") {
-        // postAuction();  // this function lets the user choose what product to buy
+      
         buyItems();
       }
       else{
@@ -85,20 +83,19 @@ function buyItems() {
 			message: "How many do you need?",
 		}
 	]).then(function(input) {
-		// console.log("Customer has selected: \n   
-		// item_id = "  + input.item_id + "\n    quantity = " + input.quantity);
+	
 
 		var item = input.item_id;
 		var quantity = input.quantity;
 
-		// Query db to confirm that the given item ID exists in the desired quantity
+		// Query to the db
 		var queryStr2 = "SELECT * FROM products WHERE ?";
 
 		connection.query(queryStr2, {item_id: item}, function(err, result) {
 			if (err) throw err;
 
 		
-			// cannot use floats, negative, or strings error catch
+			// error catch cannot use floats, negative, or strings
 			if (result.length === 0 || quantity < 0) {
 				console.log("Please Select correct ID item");
 				buyItems();
@@ -111,15 +108,15 @@ function buyItems() {
 				if (quantity <= choosenResult.stock_quantity) {
 					console.log("The product you have choosen is in stock!");
 
-					// Construct the updating query string
+					//updating query string to the database
           var queryStr3 = "UPDATE products SET stock_quantity = " + (choosenResult.stock_quantity - quantity)
            + " WHERE item_id = " + item;
-					// console.log("updateQueryStr = " + updateQueryStr);
+					
 
 					// Update the inventory
 					connection.query(queryStr3, function(err, result) {
 						if (err) throw err;
-            console.log("Product item:",choosenResult.product_name, );
+            			console.log("Product item:",choosenResult.product_name, );
 						console.log("Your total price is $" + (choosenResult.price * quantity).toFixed(2));
 						console.log("Thanks for shopping with us and have a great day!");
 						console.log("\n==========================\n");
